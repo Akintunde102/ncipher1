@@ -33,7 +33,7 @@ mongoose.connect(db)
 app.use(
     session({
         secret: 'secret',
-        cookie: {maxAge: 60000},
+        cookie: { maxAge: 60000 },
         resave: true,
         saveUninitialized: true
     })
@@ -51,10 +51,10 @@ app.use('/auth', require('./routes/auth'));
 app.use(require('./middlewares/ErrorHandler'))
 
 app.use((req, res, next) => {
-	res.status(404).json({
-		code: 404,
-		message: 'Not found',
-	})
+    res.status(404).json({
+        code: 404,
+        message: 'Not found',
+    })
 })
 
 /// error handlers
@@ -62,17 +62,19 @@ app.use((req, res, next) => {
 // development error handler
 // will print stacktrace
 if (!isProduction) {
-    app.use(function(err, req, res, next) {
-      console.log(err.stack);
+    app.use(function (err, req, res, next) {
+        console.log(err.stack);
 
-      res.status(err.status || 500);
+        res.status(err.status || 500);
 
-      res.json({'errors': {
-        message: err.message,
-        error: err
-      }});
+        res.json({
+            'errors': {
+                message: err.message,
+                error: err
+            }
+        });
     });
-  }
+}
 
 // production error handler
 // no stacktraces leaked to user
@@ -86,8 +88,8 @@ app.use(function (err, req, res, next) {
     });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
-server.listen(PORT, function() {
+server.listen(PORT, function () {
     console.log(`Server running on PORT ${PORT}`);
 });
