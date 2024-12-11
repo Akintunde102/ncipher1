@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './components/pages/home';
+import Transactions from './components/pages/transactions';
 import Staking from './components/pages/staking';
 import { getDefaultConfig, RainbowKitProvider, midnightTheme, RainbowKitAuthenticationProvider } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
@@ -30,6 +31,9 @@ function App() {
           <Route path="/">
             <Route index element={<Home />} />
             <Route path="staking" element={<Staking />} />
+          </Route>
+          <Route path="/transactions">
+            <Route index element={<Transactions />} />
           </Route>
         </Routes>
       </BrowserRouter>
