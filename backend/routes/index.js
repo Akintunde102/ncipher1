@@ -22,6 +22,6 @@ router.use('/item', ItemRouter);
 router.use('/ticket', TicketRouter);
 router.use('/payment', PaymentRouter);
 router.use('/auth', AuthRouter)
-router.use('/track', TrackRouter)
+router.use('/transactions', TrackRouter)
 
 module.exports = router;

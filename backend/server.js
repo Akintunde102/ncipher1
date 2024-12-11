@@ -5,7 +5,22 @@ const mongoose = require('mongoose');
 // const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+
+const { Server } = require("socket.io");
+
 const server = require('http').createServer(app)
+
+const io = new Server(server, {
+    cors: {
+        origin: "http://127.0.0.1:5173",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["Content-Type"],
+        credentials: true,
+    },
+});
+
+module.exports = { io };
+
 const bodyParser = require('body-parser')
 require('express-async-errors')
 const cors = require('cors')
@@ -87,6 +102,24 @@ app.use(function (err, req, res, next) {
         }
     });
 });
+
+// Handle WebSocket connections
+io.on("connection", (socket) => {
+    console.log("A user connected!");
+
+
+    socket.on("message", (message) => {
+        console.log(`Received: ${message}`);
+        // Send a response back to the client
+        socket.emit("message", `Server received: ${message}`);
+    });
+
+    // Handle disconnection
+    socket.on("disconnect", () => {
+        console.log("A user disconnected!");
+    });
+});
+
 
 const PORT = process.env.PORT || 4000;
 

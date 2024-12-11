@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const TrackController = require('../controllers/TrackController')
+const TransactionsController = require('../controllers/TransactionsController')
 
-router.get('/', TrackController.trackBiggestWhales)
+router.post('/set-cron-job', TransactionsController.setBiggestWhaleTransactionsCronJob)
 
 module.exports = router
