@@ -1,22 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function TransactionsIntervalForm() {
+export default function TransactionsIntervalForm({countDown}) {
   const [time, setTime] = useState(1);
-  const [countDown, setCountDown] = useState(0); 
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      console.log({ time });
-      if (countDown > 0) {
-        setCountDown(countDown - 1);
-      }
-
-      if (countDown === 0) {
-        setCountDown(time * 60);
-      }
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [countDown]);
 
   useEffect(() => {
     handleTimeIntervalSubmission();
@@ -24,7 +9,6 @@ export default function TransactionsIntervalForm() {
 
   const handleTimeIntervalSubmission = async () => {
     try {
-      setCountDown(time * 60);
 
       const response = await fetch('http://localhost:4000/api/transactions/set-cron-job', {
         method: 'POST',

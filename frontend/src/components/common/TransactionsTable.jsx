@@ -21,7 +21,6 @@ const TableRowItem = ({ value, shorten }) => (
       'Block Height',
     ];
   
-    console.log(transactions, "yeah");
 
     if(transactions.length === 0){
       return <></>
