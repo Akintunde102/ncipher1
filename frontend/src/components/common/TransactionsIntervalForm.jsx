@@ -5,7 +5,7 @@ export default function TransactionsIntervalForm({countDown}) {
 
   useEffect(() => {
     handleTimeIntervalSubmission();
-  }, [time]);
+  }, []);
 
   const handleTimeIntervalSubmission = async () => {
     try {
