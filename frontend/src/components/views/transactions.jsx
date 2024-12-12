@@ -14,7 +14,6 @@ export default function Transactions() {
       const timer = setInterval(() => {
         if (countDown > 0) {
           setCountDown(countDown - 1);
-          console.log({ a: new Date() });
         }
       }, 1000);
       return () => clearInterval(timer);
