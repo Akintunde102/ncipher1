@@ -1,8 +1,8 @@
 const axios = require("axios");
 const { BITQUERY_API_KEY, TOP_BSC_WHALE_ACCOUNTS_IN_DESC_ORDER, BITQUERY_API_URL } = require("../config/key");
 const { setCronJob } = require("../utils/set-cron-job");
-const { io } = require("../server");
 const { emit } = require("../utils/socket-gate");
+const { changeMinToCronTime } = require('./../utils/changeMinToCronTime');
 
 const getTransactionsFromBiggestWhales = async () => {
   console.log("getTransactionsFromBiggestWhales:: fetching transactions")
@@ -149,7 +149,13 @@ const getBiggestWhalesTrasanctions = async () => {
   }
 }
 
-const emitWhaleTransactions = async () => {
+const emitWhaleTransactions = async (time) => {
+
+  emit({
+    eventName: "interval",
+    payload: time
+  });
+
   const transactions = await getBiggestWhalesTrasanctions();
 
   if (transactions.length > 0) {
@@ -162,7 +168,12 @@ const emitWhaleTransactions = async () => {
   });
 }
 
-exports.setBiggestWhalesTransactionsCronJob = async (cronTime = '*/1 * * * *') => {
-  emitWhaleTransactions();
-  setCronJob(cronTime, emitWhaleTransactions);
+exports.setBiggestWhalesTransactionsCronJob = async (time = '1') => {
+  emitWhaleTransactions(time);
+
+  const cronTime = changeMinToCronTime(time);
+  setCronJob(cronTime, () => {
+    emitWhaleTransactions(time);
+  });
+
 }
