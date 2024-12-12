@@ -1,6 +1,5 @@
 import Navbar from "../common/Navbar";
 import TransactionsView from "../views/transactions";
-import Footer from "../views/footer";
 
 function Transactions() {
 
@@ -8,7 +7,6 @@ function Transactions() {
     <div id='home'>
       <Navbar />
       <TransactionsView />
-      <Footer />
     </div>
   );
 }

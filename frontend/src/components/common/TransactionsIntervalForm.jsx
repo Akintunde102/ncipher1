@@ -24,6 +24,8 @@ export default function TransactionsIntervalForm() {
 
   const handleTimeIntervalSubmission = async () => {
     try {
+      setCountDown(time * 60);
+
       const response = await fetch('http://localhost:4000/api/transactions/set-cron-job', {
         method: 'POST',
         headers: {
@@ -37,8 +39,7 @@ export default function TransactionsIntervalForm() {
       }
 
       const data = await response.json();
-
-      setCountDown(time * 60);
+      
       console.log('Cron job set successfully:', data);
     } catch (error) {
       console.error('Error:', error);
@@ -70,7 +71,14 @@ export default function TransactionsIntervalForm() {
             </form>
             <div className="text-white sm:text-left md:text-[18px] sm:text-[12px] text-[12px] font-[RobotoMono]">
               <p className="pt-[16px] pb-[24px]">
-                {countDown === 0 ? "" : `Your transactions will be refreshed in ${countDown} seconds`}
+                {countDown > 0 ? (
+                  <span>
+                    Your transactions will be refreshed in <span className='text-[#02ebb5]'>{countDown} </span>
+                    seconds
+                  </span>
+                ) : (
+                  <></>
+                )}
               </p>
             </div>
           </div>
