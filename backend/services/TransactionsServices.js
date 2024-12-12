@@ -149,20 +149,20 @@ const getBiggestWhalesTrasanctions = async () => {
   }
 }
 
-exports.setBiggestWhalesTransactionsCronJob = async (cronTime = '*/1 * * * *') => {
+const emitWhaleTransactions = async () => {
   const transactions = await getBiggestWhalesTrasanctions();
-  console.log({ transactions })
-  setCronJob(cronTime, async () => {
-    const transactions = await getBiggestWhalesTrasanctions();
 
-    if (transactions.length > 0) {
-      console.log("getBiggestWhalesTrasanctions:: transactions fetched successfully");
-    }
+  if (transactions.length > 0) {
+    console.log("getBiggestWhalesTrasanctions:: transactions fetched successfully");
+  }
 
-    emit({
-      eventName: "transactions",
-      payload: transactions
-    });
+  emit({
+    eventName: "transactions",
+    payload: transactions
   });
 }
 
+exports.setBiggestWhalesTransactionsCronJob = async (cronTime = '*/1 * * * *') => {
+  emitWhaleTransactions();
+  setCronJob(cronTime, emitWhaleTransactions);
+}

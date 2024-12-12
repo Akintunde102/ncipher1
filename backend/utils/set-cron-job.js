@@ -6,8 +6,6 @@ exports.setCronJob = async (schedule, task, onComplete = () => {
     console.log("Job completed!");
 }) => {
 
-    console.log({ schedule, task, onComplete });
-
     if (currentJob) {
         console.log("Stopping existing cron job...");
         currentJob.stop();
@@ -15,14 +13,17 @@ exports.setCronJob = async (schedule, task, onComplete = () => {
 
     currentJob = CronJob.from({
         cronTime: String(schedule),
-        onTick: task,
+        onTick: () => {
+            console.log({ schedule }, "Running cron job... at " + new Date());
+            task();
+        },
         onComplete,
         start: false,
         timeZone: 'America/Los_Angeles'
     });
 
     currentJob.start();
-    console.log("New cron job started!");
+    console.log({ schedule }, "New cron job started!");
 }
 
 
